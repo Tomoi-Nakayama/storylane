@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../others/favicon.ico">
+    <title>VPN設定･会計ソフト利用マニュアル</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #4a90e2;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1 {
+            color: #fff;
+        }
+        h2, h3 {
+            color: #4a90e2;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 2em;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .step {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .step::before {
+            content: "Step " counter(step-counter) ": ";
+            counter-increment: step-counter;
+            font-weight: bold;
+        }
+        ol {
+            counter-reset: step-counter;
+            padding-left: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .section {
+            padding-top: 60px;
+            margin-top: -60px;
+        }
+        .checkButton {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .checkButton:hover {
+            background-color: #357ab8;
+        }
+        .copy-button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .copy-button:hover {
+            background-color: #357ab8;
+        }
+        .home-button, .menu-button {
+            font-family: 'Arial', sans-serif;
+            position: fixed;
+            top: 3px;
+            background-color: transparent;
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            text-decoration: none;
+            font-size: 14px;
+            z-index: 1001;
+        }
+        .home-button {
+        right: 100px;
+        }
+        .menu-button {
+        right: 20px;
+        }
+        .home-button:hover, .menu-button:hover {
+            background-color: white;
+            color: #333;
+        }
+        .menu {
+        position: fixed;
+        top: 0;
+        right: -250px;
+        width: 250px;
+        height: 100%;
+        background-color: white;
+        border-left: 1px solid #ccc;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s;
+        z-index: 1000;
+        padding-top: 60px;
+        }
+        .menu a {
+        display: block;
+        padding: 10px;
+        color: #333;
+        text-decoration: none;
+        border-bottom: 1px solid #eee;
+        }
+        .menu a:hover {
+        background-color: #f9f9f9;
+        }
+        .menu a:last-child {
+        border-bottom: none;
+        }
+        .menu a.disabled {
+        color: #aaa;
+        pointer-events: none;
+        cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>VPN設定･会計ソフト利用マニュアル</h1>
+    </header>
+    <nav id="navbar">
+        <a href="#概要">概要</a>
+        <a href="#設定">設定</a>
+        <a href="#利用">VPN接続/OBIC7起動</a>
+
+    </nav>
+    <div class="container">
+        <section id="概要" class="section">
+            <h2>目的</h2>
+            <p><font size="4.5px">会計ソフトOBIC7についてはマイクロアドのサーバーにソフトがあるため、<br>VPN接続をし、Remote Appにて起動する必要がある。</font></p>
+            <p><font size="4.5px">セットアップ自体は1回行うだけで良いが、<font color="red">接続は都度行う必要がある</font><br>(接続時、一定時間で接続が切れる場合もあるため、その場合は再接続が必要)</font></p>
+        </section>
+        <section id="手順" class="section">
+            <h2>手順</h2>
+            <ol>
+                <li>
+                    <div class="step">
+        <section id="準備" class="section">
+                        <h3>準備</h3>
+                        <p>① Sonic Wall Global VPN Clientをダウンロード
+                        &ensp;→&ensp; <button class="copy-button" id="js-download-btn">ダウンロード</button></p>
+                        <script>
+                                document.getElementById('js-download-btn').addEventListener('click', function() {
+                                    var fileUrl = '../data/184-011921-00_REV_A_GVCSetup64.exe';
+                                    var fileName = '184-011921-00_REV_A_GVCSetup64.exe'; 
+                                    var a = document.createElement('a');
+                                    a.style.display = 'none';
+                                    a.href = fileUrl;
+                                    a.download = fileName;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                });
+                        </script>
+
+                        <p>② 設定用のrfcファイルをダウンロード
+                        &ensp;→&ensp; <button class="copy-button" id="js-download-btn2">ダウンロード</button></p>
+                        <script>
+                                document.getElementById('js-download-btn2').addEventListener('click', function() {
+                                    var fileUrl = '../data/WAN GroupVPN_2CB8EDBC7222.rcf';
+                                    var fileName = 'WAN GroupVPN_2CB8EDBC7222.rcf'; 
+                                    var a = document.createElement('a');
+                                    a.style.display = 'none';
+                                    a.href = fileUrl;
+                                    a.download = fileName;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                });
+                        </script>
+                    </div>
+                </li>
+                <li>
+                    <div class="step">
+        <section id="設定" class="section">
+                        <h3>設定</h3>
+                        <h4>～VPV設定～</h4>
+                        <p>①&ensp;Step1-①でダウンロードした｢184-011921-00_REV_A_GVCSetup64.exe｣を開く</p>
+                        <p>②&ensp;[Next]を押してインストールを進める(途中の同意のラジオボタンは｢Agree｣をチェック)</p>
+                        <p>③&ensp;インストールが完了したら[close]をクリックしてウィンドウを閉じる</p>
+                        <p>④&ensp;Global VPN Clientを起動する(自動で起動される場合もあります)</p>
+                        <p>⑤&ensp;[ファイル]タブから[コネクションのインポート]をクリック</p>
+                        &ensp; &ensp; <img src="../img/ScreenShot1.png" width="45%" style="margin-left: 35px;">
+                        <p>⑥&ensp;｢インポートする設定情報ファイル｣にStep1-①でダウンロードした｢WAN GroupVPN_2CB8EDBC7222.rfc｣を入れる</p>
+                        <p>⑦&ensp;｢暗号化されている場合のパスワード｣に｢<button class="copy-button" onclick="copyToClipboard()">Copy</button><span id="filename">xaG3pnfGTaH7g</span>｣を入力し、[OK]をクリックする</p>
+                        <h4>～Remote App設定～</h4>
+                        <p>⑧&ensp;Step1-①～②を参考に、VPNに接続する</p>
+                        <p>⑨&ensp;Windowsキーを押下し、｢RemoteApp｣と入力すると表示される｢RemoteApp とデスクトップ接続｣をクリック</p>
+                        <p>⑩&ensp;[RemoteAppとデスクトップにアクセスする]をクリックする</p>
+                        <p>⑪&ensp;｢電子メールアドレス又は接続URL｣に｢<button class="copy-button" onclick="copyToClipboard2()">Copy</button><span id="filename2">https://microad.obic7.obicnet.ne.jp/rdweb/feed/webfeed.aspx</span>｣を[次へ]をクリックする</p>
+                        &ensp; &ensp; <img src="../img/ScreenShot2.png" width="45%" style="margin-left: 35px;">
+                        <p>⑫&ensp;[次へ]をクリックし、接続リソースの追加を行う</p>
+                        <p>⑬&ensp;ログインのポップアップが表示されたら｢<a href="https://docs.google.com/document/d/1uL7gD-WQ0j5KQbe8mOp7oYUXVCsZKHgq/preview?tab=t.0" target="_blank">【重要】MADS各種アカウント.docx</a>｣に記載の<b>Remote App</b>のユーザー名およびパスワードを入力し[OK]をクリックする</p><br>｢このアカウントを記録する｣にチェックを入れると今後の作業がスムーズになる</p>
+                        &ensp; &ensp; <img src="../img/ScreenShot3.png" width="45%" style="margin-left: 35px;">
+                        <p>⑭&ensp;Windowsメニューの全てのアプリケーションの中にObic7が追加される<br><font color="red">※必要に応じてショートカットやピン止めを作成してください。</font></p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step">
+        <section id="利用" class="section">
+                        <h3>VPN接続/OBIC7起動</h3>
+                        <h4>～VPV接続～</h4>
+                        <p>①&ensp;Global VPN Clientを起動し、コネクション名:GroupVPN_2CB8EDBC7222を選択した状態で[▶有効]をクリックする</p>
+                        <p>②&ensp;｢<a href="https://docs.google.com/document/d/1uL7gD-WQ0j5KQbe8mOp7oYUXVCsZKHgq/preview?tab=t.0" target="_blank">【重要】MADS各種アカウント.docx</a>｣に記載の<b>VPN</b>のユーザー名およびパスワードを入力し[OK]をクリックする</p>
+                        <h4>～OBIC7起動～</h4>
+                        <p>③&ensp;Step1-⑭で追加したObic7を起動する</p>
+                        <p>④&ensp;Remote Appの画面が表示されたら｢<a href="https://docs.google.com/document/d/1uL7gD-WQ0j5KQbe8mOp7oYUXVCsZKHgq/preview?tab=t.0" target="_blank">【重要】MADS各種アカウント.docx</a>｣に記載の<b>Remote App</b>のユーザー名およびパスワードを入力し[OK]をクリックする</p>
+                        <p>⑤&ensp;OBIC7のログイン画面が表示されたら｢<a href="https://docs.google.com/document/d/1uL7gD-WQ0j5KQbe8mOp7oYUXVCsZKHgq/preview?tab=t.0" target="_blank">【重要】MADS各種アカウント.docx</a>｣に記載の<b>会計ソフトOBIC7</b>のユーザー名およびパスワードを入力し[ログイン]をクリックする</p>
+                    </div>
+                </li>
+
+                        <script>
+                        (function(d){
+                          const pre = d.querySelectorAll('pre');
+                          if(pre.length == 0){
+                            return
+                          }
+                          for(let i = 0; i < pre.length; i++){
+                            const btn = d.createElement('button');
+                            btn.className = 'copy-button';
+                            btn.textContent = 'Copy';
+                            pre[i].insertBefore(btn, pre[i].firstElementChild);
+                            btn.addEventListener('click', copy_code, false)
+                          }
+                        })(document);
+                        function copy_code(){
+                          const code = this.nextElementSibling.innerText;
+                          if(navigator.clipboard){
+                            navigator.clipboard.writeText(code).then(() => {
+                              this.textContent = 'Copied';
+                              setTimeout(() => {
+                                this.textContent = 'Copy'
+                              }, 500)
+                            }).catch(e => {
+                              alert('コピーできませんでした\nお手数ですが手動でコピーしてください\n\n' + e.message)
+                            })
+                          } else{
+                            alert('このブラウザは Clipboard API 非対応です\nお手数ですが手動でコピーしてください')
+                          }
+                        }
+                        </script>
+                    </div>
+                </li>
+            </ol>
+        </section>
+    </div>
+    <script>
+        function copyToClipboard() {
+            var textToCopy = document.getElementById('filename').innerText;
+            navigator.clipboard.writeText(textToCopy).then(function() {
+            }, function(err) {
+                alert('Failed to copy: ', err);
+            });
+        }
+        function copyToClipboard2() {
+            var textToCopy = document.getElementById('filename2').innerText;
+            navigator.clipboard.writeText(textToCopy).then(function() {
+            }, function(err) {
+                alert('Failed to copy: ', err);
+            });
+        }
+
+
+        window.onscroll = function() {
+            var header = document.querySelector('header');
+            var navbar = document.getElementById('navbar');
+            var headerHeight = header.offsetHeight;
+
+            if (window.pageYOffset > headerHeight) {
+                navbar.style.position = 'fixed';
+                navbar.style.top = '0';
+            } else {
+                navbar.style.position = 'static';
+            }
+        };
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            if (menu.style.right === '0px') {
+                menu.style.right = '-250px';
+            } else {
+                menu.style.right = '0px';
+            }
+        }
+
+        window.onclick = function(event) {
+            const menu = document.getElementById('menu');
+            if (!event.target.matches('.menu-button') && !menu.contains(event.target)) {
+                menu.style.right = '-250px';
+            }
+        }
+    </script>
+</body>
+</html>
